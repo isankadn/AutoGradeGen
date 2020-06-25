@@ -21,7 +21,7 @@ request.method = 'POST'
 request.META['SERVER_NAME'] = 'localhost'
 request.META['REMOTE_ADDR'] = 'localhost'
 request.META['SERVER_PORT'] = 0
-request.user = User.objects.get(username="edx")
+request.user = User.objects.get(username="isankadn")
 
 
 class Command(BaseCommand):
