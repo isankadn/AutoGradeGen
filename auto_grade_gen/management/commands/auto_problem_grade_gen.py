@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 from auto_grade_gen.models import AutoGenCourse
 from lms.djangoapps.instructor.views.api import calculate_grades_csv, require_level
-from lms.djangoapps.instructor_task.api import submit_calculate_grades_csv
+from lms.djangoapps.instructor_task.api import submit_calculate_grades_csv, submit_problem_grade_report
 from django.http import HttpRequest
 from django.contrib.auth.models import User
 from lms.djangoapps.instructor_task.models import DjangoStorageReportStore, ReportStore
@@ -26,7 +26,7 @@ request.user = User.objects.get(username="isankadn")
 
 class Command(BaseCommand):
 
-    help = 'Generate grades for specific courses'
+    help = 'Generate problem grades for specific courses'
 
     def handle(self, *args, **kwargs):
 
@@ -38,7 +38,7 @@ class Command(BaseCommand):
             print (x.course_id)
 
             course_key = CourseKey.from_string(x.course_id)
-            submit_calculate_grades_csv(request, course_key)
+            submit_problem_grade_report(request, course_key)
             #problem_grade_report
 
             print ('wait for finish to generate report.....')
@@ -53,7 +53,8 @@ class Command(BaseCommand):
             report_store = ReportStore.from_config('GRADES_DOWNLOAD')
             report_location = os.path.join(report_store.storage.base_location, hashed_course_id)
             rename_file = os.path.join(report_location, x.course_name + '.csv')
-            ftp_locaiton = os.path.join('/sftp/shopwareit/upload', x.course_name + '.csv')
+            ftp_locaiton = os.path.join('/sftp/shopwareit/upload', x.course_name + 'problem_grade.csv')
+            #ftp_locaiton = os.path.join('/Users/isanka/Downloads', x.course_name + 'problem_grade.csv')
             list_of_files = glob.glob(report_location+ '/*')
 
             if list_of_files:
