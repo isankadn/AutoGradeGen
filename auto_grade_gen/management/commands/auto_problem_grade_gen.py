@@ -53,7 +53,7 @@ class Command(BaseCommand):
             report_store = ReportStore.from_config('GRADES_DOWNLOAD')
             report_location = os.path.join(report_store.storage.base_location, hashed_course_id)
             rename_file = os.path.join(report_location, x.course_name + '.csv')
-            ftp_locaiton = os.path.join('/sftp/shopwareit/upload', x.course_name + 'problem_grade.csv')
+            ftp_locaiton = os.path.join('/sftp/shopwareit/upload', x.course_name + '-problem-grade.csv')
             #ftp_locaiton = os.path.join('/Users/isanka/Downloads', x.course_name + 'problem_grade.csv')
             list_of_files = glob.glob(report_location+ '/*')
 
